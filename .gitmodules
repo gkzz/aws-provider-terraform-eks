@@ -1,0 +1,3 @@
+[submodule "eks-log-to-cloudwatchlogs.d/fluentd.d/fluentd-kubernetes-daemonset"]
+	path = eks-log-to-cloudwatchlogs.d/fluentd.d/fluentd-kubernetes-daemonset
+	url = git@github.com:fluent/fluentd-kubernetes-daemonset.git

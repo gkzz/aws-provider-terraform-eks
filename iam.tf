@@ -100,8 +100,16 @@ resource "aws_iam_policy" "CloudWatchAgentServerPolicy" {
 POLICY
 }*/
 
-# Attach Policy
+/*
+# Attach CloudWatchAgentServerPolicy
 resource "aws_iam_role_policy_attachment" "CloudWatchAgentServer" {
   role       = aws_iam_role.gkzz-dev-node-role.name
   policy_arn = "arn:aws:iam::aws:policy/CloudWatchAgentServerPolicy"
+}
+*/
+
+# Attach CloudWatchLogsFullAccessPolicy
+resource "aws_iam_role_policy_attachment" "CloudWatchLogsFullAccess" {
+  role       = aws_iam_role.gkzz-dev-node-role.name
+  policy_arn = "arn:aws:iam::aws:policy/CloudWatchLogsFullAccess"
 }
