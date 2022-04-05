@@ -1,5 +1,5 @@
 output "cluster-name" {
-  value     = aws_eks_cluster.gkzz-dev-cluster.name
+  value = aws_eks_cluster.gkzz-dev-cluster.name
 }
 
 output "endpoint" {

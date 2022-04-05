@@ -11,7 +11,7 @@ variable "prefix" {
 }
 
 variable "instance_types" {
-  type = list(string)
+  type    = list(string)
   default = ["t2.small", "t3.small", "t2.medium"]
   #default = ["t3.xlarge", "t3.2xlarge"]
 }

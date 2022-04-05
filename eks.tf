@@ -57,9 +57,9 @@ resource "aws_eks_node_group" "gkzz-dev-node-group" {
     max_size     = 5
     min_size     = 2
     */
-    desired_size = "${var.node_scaling_config["desired_size"]}"
-    max_size = "${var.node_scaling_config["max_size"]}"
-    min_size = "${var.node_scaling_config["min_size"]}"
+    desired_size = var.node_scaling_config["desired_size"]
+    max_size     = var.node_scaling_config["max_size"]
+    min_size     = var.node_scaling_config["min_size"]
   }
 
   lifecycle {

@@ -1,6 +1,6 @@
 locals {
   github_owner = "gkzz"
-  github_repo  = "mycrud-django-postgres-docker"
+  github_repo  = "aws-provider-terraform-eks"
 }
 
 data "http" "github_actions_openid_configuration" {
@@ -42,8 +42,9 @@ EOF
 }
 
 resource "aws_iam_role_policy" "gkzz-dev-iam-role-policy" {
-  name   = "gkzz-dev-iam-role-policy"
-  role   = aws_iam_role.gkzz-dev-ga-role.id
+  name = "gkzz-dev-iam-role-policy"
+  role = aws_iam_role.gkzz-dev-ga-role.id
+  /*
   policy = <<EOF
 {
     "Version": "2012-10-17",
@@ -71,6 +72,40 @@ resource "aws_iam_role_policy" "gkzz-dev-iam-role-policy" {
 }
 EOF
 }
+*/
+
+  policy = <<EOF
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Effect": "Allow",
+            "Action": "*",
+            "Resource": "*"
+        },
+        {
+            "Sid": "DenyIamOnly",
+            "Effect": "Deny",
+            "Action": [
+                "iam:AddUserToGroup",
+                "iam:RemoveUserFromGroup",
+                "iam:UpdateUser",
+                "iam:PutUserPermissionsBoundary",
+                "iam:PutUserPolicy",
+                "iam:DeleteUserPolicy",
+                "iam:AttachUserPolicy",
+                "iam:DeleteUser",
+                "iam:DeleteUserPermissionsBoundary",
+                "iam:DetachUserPolicy",
+                "iam:CreateUser"
+            ],
+            "Resource": "*"
+        }
+    ]
+}
+EOF
+}
+
 
 output "gkzz-dev-ga-role-arn" {
   value = aws_iam_role.gkzz-dev-ga-role.arn
