@@ -39,3 +39,5 @@ https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/instance-types.html
 Coming soon
 
 - How to make pipeline with EKS/Github Actions/Argo CD, and more
+
+- https://www.datadoghq.com/blog/eks-cluster-metrics/
