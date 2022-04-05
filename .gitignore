@@ -109,3 +109,4 @@ argo.stable.yaml
 
 datadog-agent.yaml
 datadog-cluster-agent.yaml
+dca-secret.yaml
