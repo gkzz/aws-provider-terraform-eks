@@ -1,6 +1,10 @@
-variable "aws_access_key" {}
+variable "aws_access_key" {
+  default = null
+}
 
-variable "aws_secret_key" {}
+variable "aws_secret_key" {
+  default = null
+}
 
 variable "region" {
   default = "ap-northeast-1"

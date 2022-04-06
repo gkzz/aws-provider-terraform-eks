@@ -103,7 +103,7 @@ argo.stable.yaml
 ## 暫定対応
 ## terraform init で lock ファイルが更新される問題の対応
 ## https://techblog.szksh.cloud/terraform-providers-lock/
-.terraform.lock.hcl
+# .terraform.lock.hcl
 
 .envrc
 
