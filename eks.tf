@@ -3,7 +3,8 @@
 resource "aws_eks_cluster" "gkzz-dev-cluster" {
   name     = "${var.prefix}-cluster"
   role_arn = aws_iam_role.gkzz-dev-cluster-role.arn
-  version  = "1.21"
+  # https://docs.aws.amazon.com/eks/latest/userguide/kubernetes-versions.html
+  version = "1.22"
 
   #    kubernetes_network_config {
   #        service_ipv4_cidr = "10.100.0.0/16"
@@ -30,15 +31,7 @@ resource "aws_eks_cluster" "gkzz-dev-cluster" {
   ]
 
   tags = {
-    "alpha.eksctl.io/cluster-name"                = "${var.prefix}-cluster"
-    "alpha.eksctl.io/eksctl-version"              = "0.77.0"
-    "eksctl.cluster.k8s.io/v1alpha1/cluster-name" = "${var.prefix}-cluster"
-    Name                                          = "${var.prefix}-cluster"
-  }
-  tags_all = {
-    "alpha.eksctl.io/cluster-name"                = "${var.prefix}-cluster"
-    "alpha.eksctl.io/eksctl-version"              = "0.77.0"
-    "eksctl.cluster.k8s.io/v1alpha1/cluster-name" = "${var.prefix}-cluster"
+    Name = "${var.prefix}-cluster"
   }
 }
 
