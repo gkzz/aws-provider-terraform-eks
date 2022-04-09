@@ -1,8 +1,8 @@
 # https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/eks_cluster
 # aws_eks_cluster.my_cluster:
-resource "aws_eks_cluster" "gkzz-dev-cluster" {
-  name     = "${var.prefix}-cluster"
-  role_arn = aws_iam_role.gkzz-dev-cluster-role.arn
+resource "aws_eks_cluster" "gkzz_dev_cluster" {
+  name     = "${var.prefix}_cluster"
+  role_arn = aws_iam_role.gkzz_dev_cluster_role.arn
   # https://docs.aws.amazon.com/eks/latest/userguide/kubernetes-versions.html
   version = "1.22"
 
@@ -13,21 +13,21 @@ resource "aws_eks_cluster" "gkzz-dev-cluster" {
   timeouts {}
 
   vpc_config {
-    security_group_ids      = [aws_security_group.gkzz-dev-sg.id]
+    security_group_ids      = [aws_security_group.gkzz_dev_sg.id]
     endpoint_private_access = false
     endpoint_public_access  = true
     public_access_cidrs = [
       "0.0.0.0/0",
     ]
     subnet_ids = [
-      aws_subnet.gkzz-dev-subnet-public1a.id,
-      aws_subnet.gkzz-dev-subnet-public1c.id
+      aws_subnet.gkzz_dev_subnet_public1a.id,
+      aws_subnet.gkzz_dev_subnet_public1c.id
     ]
 
   }
   depends_on = [
-    aws_iam_role_policy_attachment.gkzz-dev-AmazonEKSClusterPolicy,
-    aws_iam_role_policy_attachment.gkzz-dev-AmazonEKSVPCResourceController
+    aws_iam_role_policy_attachment.gkzz_dev_AmazonEKSClusterPolicy,
+    aws_iam_role_policy_attachment.gkzz_dev_AmazonEKSVPCResourceController
   ]
 
   tags = {
@@ -35,13 +35,13 @@ resource "aws_eks_cluster" "gkzz-dev-cluster" {
   }
 }
 
-resource "aws_eks_node_group" "gkzz-dev-node-group" {
-  cluster_name    = aws_eks_cluster.gkzz-dev-cluster.name
-  node_group_name = "${var.prefix}-node-group"
-  node_role_arn   = aws_iam_role.gkzz-dev-node-role.arn
+resource "aws_eks_node_group" "gkzz_dev_node_group" {
+  cluster_name    = aws_eks_cluster.gkzz_dev_cluster.name
+  node_group_name = "${var.prefix}_node_group"
+  node_role_arn   = aws_iam_role.gkzz_dev_node_role.arn
   subnet_ids = [
-    aws_subnet.gkzz-dev-subnet-public1a.id,
-    aws_subnet.gkzz-dev-subnet-public1c.id
+    aws_subnet.gkzz_dev_subnet_public1a.id,
+    aws_subnet.gkzz_dev_subnet_public1c.id
   ]
 
   scaling_config {
@@ -76,28 +76,28 @@ resource "aws_eks_node_group" "gkzz-dev-node-group" {
   # Ensure that IAM Role permissions are created before and deleted after EKS Node Group handling.
   # Otherwise, EKS will not be able to properly delete EC2 Instances and Elastic Network Interfaces.
   depends_on = [
-    aws_iam_role_policy_attachment.gkzz-dev-AmazonEC2ContainerRegistryReadOnly,
-    aws_iam_role_policy_attachment.gkzz-dev-AmazonEKSClusterPolicy,
-    aws_iam_role_policy_attachment.gkzz-dev-AmazonEKSVPCResourceController,
-    aws_launch_template.gkzz-dev-lt
+    aws_iam_role_policy_attachment.gkzz_dev_AmazonEC2ContainerRegistryReadOnly,
+    aws_iam_role_policy_attachment.gkzz_dev_AmazonEKSClusterPolicy,
+    aws_iam_role_policy_attachment.gkzz_dev_AmazonEKSVPCResourceController,
+    aws_launch_template.gkzz_dev_lt
   ]
 
   tags = {
-    "eks/cluster-name" = aws_eks_cluster.gkzz-dev-cluster.name
-    Name               = "${var.prefix}-node-group"
+    "eks/cluster-name" = aws_eks_cluster.gkzz_dev_cluster.name
+    Name               = "${var.prefix}_node_group"
   }
 }
 
 
 # https://tf-eks-workshop.workshop.aws/600_extra_content/610-second-node-group/tf-files.html
 # https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/launch_template
-resource "aws_launch_template" "gkzz-dev-lt" {
-  name                   = "${var.prefix}-lt"
-  vpc_security_group_ids = [aws_security_group.gkzz-dev-sg.id]
+resource "aws_launch_template" "gkzz_dev_lt" {
+  name                   = "${var.prefix}_lt"
+  vpc_security_group_ids = [aws_security_group.gkzz_dev_sg.id]
   tag_specifications {
     resource_type = "instance"
     tags = {
-      Name = "${var.prefix}-lt"
+      Name = "${var.prefix}_lt"
     }
   }
   lifecycle {
