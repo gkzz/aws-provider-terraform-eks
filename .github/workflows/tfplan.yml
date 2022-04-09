@@ -15,6 +15,19 @@ jobs:
       - name: Check out code
         uses: actions/checkout@v3
 
+      - name: Run Secretlint on Docker
+        uses: addnab/docker-run-action@v3
+        with:
+          # https://hub.docker.com/r/secretlint/secretlint/tags
+          image: secretlint/secretlint:v5.1.1
+          # https://github.com/secretlint/secretlint#using-docker
+          options: >
+            -v ${{ github.workspace }}:${{ github.workspace }}
+            -w=${{ github.workspace }}
+            --rm
+          # run on all files under github.workspace directory
+          run: secretlint "**/*"
+
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v1
         with:
