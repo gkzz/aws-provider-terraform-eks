@@ -31,7 +31,7 @@ resource "aws_iam_openid_connect_provider" "cluster" {
 }
 
 resource "aws_iam_role" "eks_cloudwatch_logs_role" {
-  name = "gkzz-dev-ga-role"
+  name = "eks_cloudwatch_logs_role"
   assume_role_policy = templatefile("policies/oidc_assume_role_policy.json", {
     OIDC_ARN = aws_iam_openid_connect_provider.cluster.arn
     OIDC_URL = replace(aws_iam_openid_connect_provider.cluster.url, "https://", ""), NAMESPACE = "kube-system",
