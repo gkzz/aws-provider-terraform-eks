@@ -3,7 +3,7 @@
 
 set -euo pipefail
 
-EKS_CLUSTER_NAME="gkzz_dev_cluster"
+EKS_CLUSTER_NAME="dev_cluster"
 REGION="ap-northeast-1"
 
 aws eks update-kubeconfig \
