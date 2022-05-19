@@ -11,13 +11,13 @@ data "tls_certificate" "github_actions" {
   url = jsondecode(data.http.github_actions_openid_configuration.body).jwks_uri
 }
 
-resource "aws_iam_openid_connect_provider" "openid_provider_ga" {
+resource "aws_iam_openid_connect_provider" "openid-provider-ga" {
   url             = "https://token.actions.githubusercontent.com"
   client_id_list  = ["sts.amazonaws.com"]
   thumbprint_list = [data.tls_certificate.github_actions.certificates[0].sha1_fingerprint]
 }
 
-resource "aws_iam_role" "gkzz_dev_ga_role" {
+resource "aws_iam_role" "gkzz-dev-ga-role" {
   name = "gkzz-dev-ga-role"
 
   assume_role_policy = <<EOF
@@ -27,7 +27,7 @@ resource "aws_iam_role" "gkzz_dev_ga_role" {
     {
       "Effect": "Allow",
       "Principal": {
-        "Federated": "${aws_iam_openid_connect_provider.openid_provider_ga.id}"
+        "Federated": "${aws_iam_openid_connect_provider.openid-provider-ga.id}"
       },
       "Condition": {
         "StringLike": {
@@ -41,9 +41,9 @@ resource "aws_iam_role" "gkzz_dev_ga_role" {
 EOF
 }
 
-resource "aws_iam_role_policy" "gkzz_dev_iam_role_policy" {
+resource "aws_iam_role_policy" "gkzz-dev-iam-role-policy" {
   name = "gkzz-dev-iam-role-policy"
-  role = aws_iam_role.gkzz_dev_ga_role.id
+  role = aws_iam_role.gkzz-dev-ga-role.id
   /*
   policy = <<EOF
 {
@@ -107,10 +107,10 @@ EOF
 }
 
 
-output "gkzz_dev_ga_role_arn" {
-  value = aws_iam_role.gkzz_dev_ga_role.arn
+output "gkzz-dev-ga-role-arn" {
+  value = aws_iam_role.gkzz-dev-ga-role.arn
 }
 
 output "openid-provider-ga-thumbprint" {
-  value = aws_iam_openid_connect_provider.openid_provider_ga.thumbprint_list
+  value = aws_iam_openid_connect_provider.openid-provider-ga.thumbprint_list
 }
