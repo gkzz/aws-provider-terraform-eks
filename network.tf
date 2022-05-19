@@ -85,9 +85,23 @@ resource "aws_security_group" "gkzz_dev_sg" {
     cidr_blocks = ["0.0.0.0/0"]
   }
   ingress {
-    description = "Allow 8000 from anywhere for redirection"
-    from_port   = 8000
-    to_port     = 8000
+    description = "Allow 5000 from anywhere for redirection"
+    from_port   = 5000
+    to_port     = 5000
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+  ingress {
+    description = "Allow 8125 from anywhere for dogstatsd"
+    from_port   = 8125
+    to_port     = 8125
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+  ingress {
+    description = "Allow 80 from anywhere for datadog.apm.port "
+    from_port   = 8126
+    to_port     = 8126
     protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
   }

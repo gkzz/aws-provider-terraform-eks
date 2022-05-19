@@ -1,0 +1,27 @@
+version: 0.19.3
+
+repositories:
+  - name: datadog
+    url: https://helm.datadoghq.com
+
+.options: &options
+  namespace: datadog-agent
+  wait: true
+  timeout: 300s
+  create_namespace: true
+
+releases:
+{{- with readFile "releases.yaml" | fromYaml | get "releases" }}
+{{ range $v := . }}
+- name: {{ $v | get "name" }}
+  tags: [{{ $v | get "name" }}]
+  chart:
+    name: datadog/datadog
+  namespace: datadog-agent
+  store:
+    targetSystem: linux
+    apiKey: xxxxxx
+    appKey: xxxxxx
+  <<: *options
+{{ end }}
+{{- end }}

@@ -21,8 +21,8 @@ variable "instance_types" {
 }
 
 variable "capacity_type" {
-  default = "SPOT"
-  #default = "ON_DEMAND"
+  #default = "SPOT"
+  default = "ON_DEMAND"
 }
 
 variable "node_scaling_config" {

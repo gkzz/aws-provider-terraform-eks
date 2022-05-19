@@ -111,3 +111,6 @@ tfstate.aws_s3_bucket.d/terraform.tfvars
 datadog-agent.yaml
 datadog-cluster-agent.yaml
 dca-secret.yaml
+.helmwave/*
+helmwave.yml*
+!helmwave.yml.tpl.sample
