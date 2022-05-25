@@ -11,7 +11,7 @@ variable "region" {
 }
 
 variable "prefix" {
-  default = "gkzz_dev"
+  default = "dev"
 }
 
 variable "instance_types" {
