@@ -1,6 +1,6 @@
 # https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/vpc
 
-resource "aws_vpc" "gkzz_dev_vpc" {
+resource "aws_vpc" "vpc" {
   assign_generated_ipv6_cidr_block = false
   cidr_block                       = "192.168.0.0/16"
   enable_classiclink               = false
@@ -14,10 +14,10 @@ resource "aws_vpc" "gkzz_dev_vpc" {
 
 }
 
-resource "aws_subnet" "gkzz_dev_subnet_public1a" {
-  vpc_id                  = aws_vpc.gkzz_dev_vpc.id
+resource "aws_subnet" "subnet_public1a" {
+  vpc_id                  = aws_vpc.vpc.id
   availability_zone       = "ap-northeast-1a"
-  cidr_block              = cidrsubnet(aws_vpc.gkzz_dev_vpc.cidr_block, 8, 0)
+  cidr_block              = cidrsubnet(aws_vpc.vpc.cidr_block, 8, 0)
   map_public_ip_on_launch = true
 
   tags = {
@@ -27,10 +27,10 @@ resource "aws_subnet" "gkzz_dev_subnet_public1a" {
 }
 
 # Error: error creating EKS Cluster (gkzz-dev-cluster): InvalidParameterException: Subnets specified must be in at least two different AZs
-resource "aws_subnet" "gkzz_dev_subnet_public1c" {
-  vpc_id                  = aws_vpc.gkzz_dev_vpc.id
+resource "aws_subnet" "subnet_public1c" {
+  vpc_id                  = aws_vpc.vpc.id
   availability_zone       = "ap-northeast-1c"
-  cidr_block              = cidrsubnet(aws_vpc.gkzz_dev_vpc.cidr_block, 8, 1)
+  cidr_block              = cidrsubnet(aws_vpc.vpc.cidr_block, 8, 1)
   map_public_ip_on_launch = true
 
   tags = {
@@ -39,11 +39,11 @@ resource "aws_subnet" "gkzz_dev_subnet_public1c" {
 
 }
 
-resource "aws_route_table" "gkzz_dev_rt" {
-  vpc_id = aws_vpc.gkzz_dev_vpc.id
+resource "aws_route_table" "rt" {
+  vpc_id = aws_vpc.vpc.id
   route {
     cidr_block = "0.0.0.0/0"
-    gateway_id = aws_internet_gateway.gkzz_dev_igw.id
+    gateway_id = aws_internet_gateway.igw.id
   }
   lifecycle {
     ignore_changes = all
@@ -53,23 +53,23 @@ resource "aws_route_table" "gkzz_dev_rt" {
   }
 }
 
-resource "aws_main_route_table_association" "gkzz_dev_rt_association" {
-  vpc_id         = aws_vpc.gkzz_dev_vpc.id
-  route_table_id = aws_route_table.gkzz_dev_rt.id
+resource "aws_main_route_table_association" "rt_association" {
+  vpc_id         = aws_vpc.vpc.id
+  route_table_id = aws_route_table.rt.id
 }
 
-resource "aws_internet_gateway" "gkzz_dev_igw" {
-  vpc_id = aws_vpc.gkzz_dev_vpc.id
+resource "aws_internet_gateway" "igw" {
+  vpc_id = aws_vpc.vpc.id
 
   tags = {
     Name = "${var.prefix}_rt_assosication"
   }
 }
 
-resource "aws_security_group" "gkzz_dev_sg" {
+resource "aws_security_group" "sg" {
   name        = "${var.prefix}_sg"
   description = "Allow 80 and 8000"
-  vpc_id      = aws_vpc.gkzz_dev_vpc.id
+  vpc_id      = aws_vpc.vpc.id
   #ingress {
   #  description = "Allow 443 from anywhere"
   #  from_port   = 443
