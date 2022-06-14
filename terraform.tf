@@ -5,6 +5,10 @@ terraform {
       source  = "hashicorp/aws"
       version = "= 4.9.0"
     }
+    null = {
+      source  = "hashicorp/null"
+      version = "3.1.1"
+    }
   }
   backend "s3" {
     bucket  = "bucket-for-aws-provider-terraform-eks"

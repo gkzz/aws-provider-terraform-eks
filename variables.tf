@@ -15,8 +15,12 @@ variable "prefix" {
 }
 
 variable "instance_types" {
-  type    = list(string)
-  default = ["t2.small", "t3.small", "t2.medium"]
+  description = <<-EOT
+    検証用なのでできるだけお金をかけないようにしている。
+　　 大きいサイズは、t3.xlarge などがある。
+    https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/instance-types.html#AvailableInstanceTypes
+  EOT
+  default     = ["t2.small", "t3.small", "t2.medium"]
   #default = ["t3.xlarge", "t3.2xlarge"]
 }
 

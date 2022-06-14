@@ -104,3 +104,12 @@ resource "aws_launch_template" "lt" {
     create_before_destroy = true
   }
 }
+
+resource "null_resource" "update_kubeconfig" {
+  triggers = {
+    cluster_name = aws_eks_cluster.cluster.id
+  }
+  provisioner "local-exec" {
+    command = "aws eks --region ${var.region} update-kubeconfig --name ${aws_eks_cluster.cluster.id}"
+  }
+}

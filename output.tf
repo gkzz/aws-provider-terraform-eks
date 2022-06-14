@@ -3,8 +3,12 @@ output "cluster-name" {
 }
 
 output "endpoint" {
-  value     = aws_eks_cluster.cluster.endpoint
-  sensitive = true
+  description = <<EOT
+    Endpoint for your Kubernetes API server.
+    https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/eks_cluster#attributes-reference
+  EOT
+  value       = aws_eks_cluster.cluster.endpoint
+  sensitive   = true
 }
 
 output "kubeconfig-certificate-authority-data" {
