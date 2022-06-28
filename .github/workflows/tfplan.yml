@@ -1,6 +1,5 @@
-name: Lint and Terraform plan with OICD Provider
+name: Terraform plan with OICD Provider
 on:
-#  push:
   workflow_dispatch:
 
 #permissions:
@@ -8,26 +7,10 @@ on:
 #  contents: read
 
 jobs:
-  lint:
-    name: Lint
-    runs-on: ubuntu-latest
-    steps:
-      - name: Check out code
-        uses: actions/checkout@v3
-
-      - name: Setup Terraform
-        uses: hashicorp/setup-terraform@v1
-        with:
-          terraform_version: 1.1.3
-
-      - name: Run terraform fmt check
-        run: terraform fmt -check -diff -recursive .
-  
   plan:
     name: Plan
     runs-on: ubuntu-latest
     needs: [lint]
-    if: always() && (needs.lint.result == 'success')
     permissions:
       id-token: write
       contents: read
@@ -37,10 +20,14 @@ jobs:
       - name: Check out code
         uses: actions/checkout@v3
 
+      - name: Read .tool-versions
+        run: echo "::set-output name=terraform-version::$(cat .tool-versions)"
+        id: terraform-version
+
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v1
         with:
-          terraform_version: 1.1.3
+          terraform_version: "${{ steps.terraform-version.outputs.terraform-version }}"
 
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v1

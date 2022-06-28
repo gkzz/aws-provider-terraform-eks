@@ -1,0 +1,35 @@
+name: Lint
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+#permissions:
+#  id-token: write
+#  contents: read
+
+jobs:
+  lint:
+    name: Lint
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v3
+
+      - name: Read .tool-versions
+        run: echo "::set-output name=terraform-version::$(cat .tool-versions)"
+        id: terraform-version
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v1
+        with:
+          terraform_version: "${{ steps.terraform-version.outputs.terraform-version }}"
+
+      - name: Run terraform fmt check
+        run: terraform fmt -check -diff -recursive .
+
+      - name: terraform validate
+        run: |
+          terraform init -backend=false
+          terraform validate
