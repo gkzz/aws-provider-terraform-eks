@@ -30,7 +30,7 @@ jobs:
           terraform_version: "${{ steps.terraform-version.outputs.terraform-version }}"
 
       - name: Configure AWS Credentials
-        uses: aws-actions/configure-aws-credentials@v1
+        uses: aws-actions/configure-aws-credentials@v2
         with:
           aws-region: ap-northeast-1
           role-to-assume: ${{ secrets.AWS_ROLE_ARN }}
