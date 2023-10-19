@@ -15,7 +15,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Check out code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Read .tool-versions
         run: echo "::set-output name=terraform-version::$(cat .tool-versions)"
